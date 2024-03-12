@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: 'https://afs-st1-omega.vercel.app',
       credentials: true,
       maxAge: 14400,
     })

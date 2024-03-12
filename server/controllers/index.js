@@ -6,20 +6,15 @@ const signup=async(req,res)=>{
     try{
         const {name,password,email}=req.body;
         const oldUser = await User.findOne({ email });
-
         if (oldUser) return sendError(res, "This email is already in use!");
-      
         const newUser = new User({ name, email, password });
         await newUser.save();
-    
         let token = generateOTP();
-
         // store otp inside our db
         const verfiyOTP = new Otp({
           email: newUser.email,
           token: token,
         });
-            
         await verfiyOTP.save();
         res.status(201).json({
             user: {
@@ -27,7 +22,6 @@ const signup=async(req,res)=>{
               name: newUser.name,
               email: newUser.email,
               isVerified:newUser.isVerified
-
             },
           });
     }catch(err){
@@ -90,4 +84,27 @@ const verify=async(req,res)=>{
         res.status(500).json({error:err.message || err});
     }
 }
-module.exports={signup,login,verify};
+
+const resendOtp=async(req,res)=>{
+  try{
+    const {email}=req.body
+
+    const checkOtp=await Otp.findOne({email})
+    if(checkOtp) return sendError(res, "Email with otp has already been sent to user");
+    
+    let token = generateOTP();
+        // store otp inside our db
+        const verfiyOTP = new Otp({
+          email:email,
+          token: token,
+        });
+        await verfiyOTP.save();
+        console.log('otp generated')
+        res.status(201).json({message:' Otp sent'});
+  }
+  catch(err){
+    console.error("🚫"+err);
+    res.status(500).json({error:err.message || err});
+  }
+}
+module.exports={signup,login,verify,resendOtp};

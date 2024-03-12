@@ -1,22 +1,22 @@
 'use client';
 import OTP from '@/components/otp';
 import useUserState from '@/hooks/use-user'
-import Link from 'next/link';
 import React ,{useState,useEffect}from 'react'
 import toast  from 'react-hot-toast';
-
 import {useRouter} from 'next/navigation'
 import axios from 'axios'
+
 const Page = () => {
-  const setUser=useUserState(state=>state.setUser);
+  const {user,setUser}=useUserState(state=>state);
   const [otp,setOTP]=useState('');
-  const router=useRouter()
-    const user=useUserState(state=>state.user);
+  useEffect(()=>{
+    const router=useRouter()
     console.log(user)
-    // if(!user){
-    //   router.push('/login');
-    //   return null;
-    // }
+    if(!user){
+      router.push('/login');
+      return null;
+    }
+  },[])
    const handleSubmit=async()=>{
     const email=user.email
     const res=await axios.post('/api/verify',{email,otp});

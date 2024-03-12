@@ -23,7 +23,7 @@ const Page = () => {
         if(res.data.data.user.isVerified){
            router.replace('/')
         }
-        else   router.replace('/verify')
+        else router.replace('/verify')
       }
       else{
         toast.error(res.data.error.message)

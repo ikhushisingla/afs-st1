@@ -5,7 +5,7 @@ export async function POST(req,res){
         const {email,password}=await req.json();
         console.log(email,password);
 
-        const res=await axios.post('http://localhost:8080/api/auth/login',{email,password});
+        const res=await axios.post(process.env.BASE_URL+'/auth/login',{email,password});
         console.log(res);
         return NextResponse.json({data:res.data});
 

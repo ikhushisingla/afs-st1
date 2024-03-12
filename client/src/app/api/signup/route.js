@@ -6,7 +6,7 @@ export async function POST(req,res){
         if(password!=confirmPassword){
             return NextResponse.json({error:{message:"Password Mismatch"}});
         }
-        const res=await axios.post('http://localhost:8080/api/auth/signup',{name,email,password});
+        const res=await axios.post(process.env.BASE_URL+'/auth/signup',{name,email,password});
         console.log(res);
         return NextResponse.json({data:res.data});
 

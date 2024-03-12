@@ -5,7 +5,7 @@ export async function POST(req,res){
         const {email,otp}=await req.json();
         console.log(email,otp);
 
-        const res=await axios.post('http://localhost:8080/api/auth/verify',{email,otp});
+        const res=await axios.post(process.env.BASE_URL+'/auth/verify',{email,otp});
         console.log(res);
         return NextResponse.json({data:res.data});
 

@@ -9,12 +9,12 @@ import axios from 'axios'
 const Page = () => {
   const {user,setUser}=useUserState(state=>state);
   const [otp,setOTP]=useState('');
+  const router=useRouter()
+
   useEffect(()=>{
-    const router=useRouter()
     console.log(user)
     if(!user){
       router.push('/login');
-      return null;
     }
   },[])
    const handleSubmit=async()=>{

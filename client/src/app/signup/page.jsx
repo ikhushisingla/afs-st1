@@ -3,13 +3,17 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FormContainer from '@/components/formContainer'
 
 const Page = () => {
+  const [loading, setloading] = useState(false);
+
   const router=useRouter()
     const handleSubmit=async(e)=>{
+      try{
+        setloading(true);
         e.preventDefault();
         const name=e.target.name.value
         const email=e.target.email.value
@@ -24,6 +28,11 @@ const Page = () => {
           else{
             toast.error(res.data.error.message)
           }
+      }
+      catch(err){
+        console.log(err)
+      }
+        setloading(false)
         }
   return (
     <div className='max-w-screen-2xl w-full h-screen flex items-center'>
@@ -46,7 +55,7 @@ const Page = () => {
                     </label>
                     <input id='confirmPassword' type='password' name='confirmPassword' className='border bg-inherit border-[#AFB3FF] focus:outline-none rounded-full px-3'/>
 
-                    <button type='submit' className='bg-[#656ED3] rounded-full px-2 mt-12 py-1 text-white'>SignUp</button>
+                    <button type='submit' className='bg-[#656ED3] rounded-full px-2 mt-12 py-1 text-white'>{loading?<span className='loader'></span>:'SignUp'}</button>
                 </form>
                 <p className='py-4 text-center'>Already have an account? <Link href="/login" className='font-bold'>LogIn</Link></p>
                 </FormContainer>
